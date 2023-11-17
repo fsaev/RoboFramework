@@ -10,7 +10,13 @@ public:
         EMPTY = 0,
         OBSTACLE = 1,
         ROBOT = 2,
-        TARGET = 3
+        TARGET = 3,
+        
+        //Path variant for visualization
+        PATH_EMPTY = 4,
+        PATH_OBSTACLE = 5, //Invalid
+        PATH_ROBOT = 6,
+        PATH_TARGET = 7,
     };
 
     static constexpr uint32_t map_dim = 192;
@@ -20,6 +26,7 @@ public:
     void print_all_ascii();
     void enable_printing();
     void disable_printing();
+    CellType get_cell(std::pair<uint32_t, uint32_t> pos);
     void tick();
     bool save();
 
@@ -41,6 +48,7 @@ private:
         {CellType::EMPTY, CellType::EMPTY, CellType::EMPTY, CellType::OBSTACLE, CellType::EMPTY, CellType::OBSTACLE, CellType::EMPTY, CellType::EMPTY},
         {CellType::EMPTY, CellType::EMPTY, CellType::EMPTY, CellType::EMPTY, CellType::OBSTACLE, CellType::EMPTY, CellType::EMPTY, CellType::EMPTY},
     }};
+
     std::array<std::array<CellType, map_dim>, map_dim> map;
 
     void send_next_chunk();
