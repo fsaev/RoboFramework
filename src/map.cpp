@@ -52,6 +52,10 @@ void WorldMap::disable_printing() {
     print_map = false;
 }
 
+WorldMap::CellType WorldMap::get_cell(std::pair<uint32_t, uint32_t> pos) {
+    return map.at(pos.first).at(pos.second);
+}
+
 void WorldMap::send_next_chunk() {
     static_assert(map_dim % chunk_size == 0, "map_dim must be divisible by chunk_size");
     CellType* p = map[0].data(); //Start of 2D-array
