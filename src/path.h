@@ -53,6 +53,7 @@ private:
     float calculate_h(std::pair<uint32_t, uint32_t> pos, Node dest);
 
     std::vector<Node> a_star(Node robot, Node target);
+    std::vector<Node> make_path(std::array<std::array<Node, (y_max / y_step)>, (x_max / x_step)> map, Node dest);
 
 };
 
