@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <array>
+#include "lidar.h"
 
 class WorldMap {
 public:
@@ -19,20 +20,28 @@ public:
         PATH_TARGET = 7,
     };
 
-    static constexpr uint32_t map_dim = 192;
+    static constexpr uint32_t map_dim = 140;
 
-    explicit WorldMap() {};
+    explicit WorldMap(Lidar& lidar);
     void example_fill(std::pair<uint32_t, uint32_t> top_left);
     void print_all_ascii();
     void enable_printing();
     void disable_printing();
     CellType get_cell(std::pair<uint32_t, uint32_t> pos);
-    void tick();
+    std::pair<uint32_t, uint32_t> get_agent_pos();
+    void tick_com();
+    void tick_frame(); //Thread safe (i think)
     bool save();
     void get_next_chunk(std::stringstream& chunk);
 
 private:
-    static constexpr uint32_t chunk_print_rate = 10; //Full refresh: ((map_dim*map_dim)/chunk_size) * 100 ms)
+    // Init agent in the middle of the map
+    uint32_t agent_x = map_dim/2;
+    uint32_t agent_y = map_dim/2;
+
+    Lidar& _lidar;
+
+    static constexpr uint32_t chunk_print_rate = 5; //Full refresh: ((map_dim*map_dim)/chunk_size) * 100 ms)
     uint32_t chunk_print_timestamp = 0;
 
     static constexpr uint32_t chunk_size = 192;
@@ -51,6 +60,10 @@ private:
     }};
 
     std::array<std::array<CellType, map_dim>, map_dim> map;
+
+    void raycast_data(uint32_t angle, uint32_t distance);
+    void process_lidar_frame(Lidar::lidarframe_t frame);
+    void send_next_chunk();
 };
 
 #endif // MAP_H
