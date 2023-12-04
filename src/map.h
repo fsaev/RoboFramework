@@ -20,7 +20,7 @@ public:
         PATH_TARGET = 7,
     };
 
-    static constexpr uint32_t map_dim = 140;
+    static constexpr uint32_t map_dim = 100;
 
     explicit WorldMap(Lidar& lidar);
     void example_fill(std::pair<uint32_t, uint32_t> top_left);
@@ -44,7 +44,7 @@ private:
     static constexpr uint32_t chunk_print_rate = 5; //Full refresh: ((map_dim*map_dim)/chunk_size) * 100 ms)
     uint32_t chunk_print_timestamp = 0;
 
-    static constexpr uint32_t chunk_size = 192;
+    static constexpr uint32_t chunk_size = 100;
     uint32_t chunk_printidx = 0;
     bool print_map = false;
 
@@ -63,7 +63,7 @@ private:
 
     void raycast_data(uint32_t angle, uint32_t distance);
     void process_lidar_frame(Lidar::lidarframe_t frame);
-    void send_next_chunk();
+    //void send_next_chunk();
 };
 
 #endif // MAP_H

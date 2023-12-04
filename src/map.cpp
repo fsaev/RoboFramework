@@ -192,6 +192,11 @@ void WorldMap::tick_frame() {
     Lidar::lidarframe_t frame = _lidar.get_lidar_frame();
 
     if(frame.header == 0x54) {
+        if(xPortGetCoreID() == 0) {
+            //Serial.print("0");
+        }else{
+            //Serial.print("1");
+        }
         digitalWrite(6, !digitalRead(6));
         process_lidar_frame(frame);
     }
