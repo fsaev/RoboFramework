@@ -29,12 +29,13 @@ public:
     CellType get_cell(std::pair<uint32_t, uint32_t> pos);
     void tick();
     bool save();
+    void get_next_chunk(std::stringstream& chunk);
 
 private:
     static constexpr uint32_t chunk_print_rate = 10; //Full refresh: ((map_dim*map_dim)/chunk_size) * 100 ms)
     uint32_t chunk_print_timestamp = 0;
 
-    static constexpr uint32_t chunk_size = 32;
+    static constexpr uint32_t chunk_size = 192;
     uint32_t chunk_printidx = 0;
     bool print_map = false;
 
@@ -50,8 +51,6 @@ private:
     }};
 
     std::array<std::array<CellType, map_dim>, map_dim> map;
-
-    void send_next_chunk();
 };
 
 #endif // MAP_H

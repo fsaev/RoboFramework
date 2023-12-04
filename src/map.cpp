@@ -56,11 +56,10 @@ WorldMap::CellType WorldMap::get_cell(std::pair<uint32_t, uint32_t> pos) {
     return map.at(pos.first).at(pos.second);
 }
 
-void WorldMap::send_next_chunk() {
-    static_assert(map_dim % chunk_size == 0, "map_dim must be divisible by chunk_size");
+//TODO implement buffer of dirty rows
+void WorldMap::get_next_chunk(std::stringstream& chunk) {
+    static_assert((map_dim*map_dim) % chunk_size == 0, "map_dim must be divisible by chunk_size");
     CellType* p = map[0].data(); //Start of 2D-array
-
-    std::stringstream chunk;
 
     if(chunk_printidx == 0) {
         chunk << "MAP " << map_dim << "/" << map_dim << ":"; //Start of map
@@ -88,15 +87,13 @@ void WorldMap::send_next_chunk() {
         chunk << ";"; //End of map
         chunk_printidx = 0;
     }
-
-    Serial.print(chunk.str().c_str());
 }
 
 void WorldMap::tick() {
     if(print_map) {
         if(millis() - chunk_print_timestamp > chunk_print_rate) {
             chunk_print_timestamp = millis();
-            send_next_chunk();
+            //send_next_chunk();
         }
     }
 }
