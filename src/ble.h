@@ -7,12 +7,16 @@
 
 class BLE {
 public:
-    explicit BLE(const std::string name, WorldMap* map);  // Constructor
-    ~BLE(); // Destructor
+    BLE(const std::string name, WorldMap* map) : _name(name), _map(map) {};  // Constructor
+    ~BLE() {}; // Destructor
+
+    void start_server();
 
     // Add your class methods here
 
 private:
+    std::string _name;
+    WorldMap* _map;
     // Add your private members here
 
     

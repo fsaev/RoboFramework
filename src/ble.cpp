@@ -64,12 +64,9 @@ class CharacteristicCallbacks: public NimBLECharacteristicCallbacks {
     };
 };
 
-BLE::BLE(const std::string name, WorldMap* map) {
-
-    _map = map;
-
+void BLE::start_server() {
     // Constructor
-    NimBLEDevice::init(name);
+    NimBLEDevice::init(_name);
     NimBLEServer* pServer = NimBLEDevice::createServer();
     NimBLEService* pService = pServer->createService(SERVICE_UUID);
     NimBLECharacteristic* pCharacteristic = pService->createCharacteristic(
@@ -83,9 +80,5 @@ BLE::BLE(const std::string name, WorldMap* map) {
     pAdvertising->addServiceUUID(SERVICE_UUID);
     pAdvertising->start();
     Serial.println("Advertising started");
-}
-
-BLE::~BLE() {
-    // Destructor
 }
 

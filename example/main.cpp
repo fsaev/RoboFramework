@@ -4,9 +4,10 @@
 Lidar lidar {};
 WorldMap world_map {lidar};
 Path path {world_map};
+BLE ble {"RoboFramework", &world_map};
 
 uint32_t loop_subroutine = 0;
-char buf[512];
+//char buf[512];
 
 #ifndef LED_BUILTIN
 #define LED_BUILTIN 13
@@ -38,6 +39,7 @@ void roboframework_task_main_core0(void *pvParameters) {
 
 void roboframework_task_main_core1(void *pvParameters) {
   //world_map.example_fill(std::make_pair(128, 128));
+  ble.start_server();
   for(;;) {
 
     world_map.tick_frame();
@@ -59,6 +61,7 @@ void setup() {
   pinMode(6, OUTPUT);
   Serial.begin(230400); //USB serial
   Serial1.begin(230400, SERIAL_8N1, RX, TX);
+
   //world_map.enable_printing();
 
   xTaskCreatePinnedToCore(
@@ -95,7 +98,6 @@ void setup() {
                     0);              /* Core where the task should run */
 
   Serial.println("Setup done");
-  delay(2000);
 }
 
 void loop() {
@@ -107,6 +109,4 @@ void loop() {
   // }
 
 
-
 }
-

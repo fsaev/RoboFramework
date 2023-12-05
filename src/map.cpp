@@ -81,7 +81,7 @@ void WorldMap::get_next_chunk(std::stringstream& chunk) {
         // Access the 2D-array as a sequential 1D-array
         switch(p[chunk_printidx + i]) {
                 case CellType::EMPTY:
-                    chunk << " ";
+                    chunk << "0";
                     break;
                 case CellType::OBSTACLE:
                     chunk << "1";
@@ -181,7 +181,7 @@ void WorldMap::tick_com() {
     //if(print_map) {
         if(millis() - chunk_print_timestamp > chunk_print_rate) {
             chunk_print_timestamp = millis();
-            send_next_chunk();
+            //send_next_chunk();
             //print_all_ascii();
         }
     //}
