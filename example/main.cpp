@@ -39,7 +39,6 @@ void roboframework_task_main_core0(void *pvParameters) {
 
 void roboframework_task_main_core1(void *pvParameters) {
   //world_map.example_fill(std::make_pair(128, 128));
-  ble.start_server();
   for(;;) {
 
     world_map.tick_frame();
@@ -56,11 +55,12 @@ void roboframework_task_path(void *pvParameters) {
 
 
 void setup() {
-  // put your setup code here, to run once:
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(6, OUTPUT);
+  // put your setup code here, to run once:
   Serial.begin(230400); //USB serial
   Serial1.begin(230400, SERIAL_8N1, RX, TX);
+
+  ble.start_server();
 
   //world_map.enable_printing();
 
@@ -75,7 +75,7 @@ void setup() {
   xTaskCreatePinnedToCore(
                     roboframework_task_main_core0,          /* Task function. */
                     "roboplatform_main_core0",        /* String with name of task. */
-                    10000,            /* Stack size in bytes. */
+                    20000,            /* Stack size in bytes. */
                     NULL,             /* Parameter passed as input of the task */
                     3,                /* Priority of the task. */
                     NULL,              /* Task handle. */
@@ -83,7 +83,7 @@ void setup() {
   xTaskCreatePinnedToCore(
                     roboframework_task_main_core1,          /* Task function. */
                     "roboplatform_main_core1",        /* String with name of task. */
-                    10000,            /* Stack size in bytes. */
+                    20000,            /* Stack size in bytes. */
                     NULL,             /* Parameter passed as input of the task */
                     3,                /* Priority of the task. */
                     NULL,              /* Task handle. */
@@ -110,3 +110,4 @@ void loop() {
 
 
 }
+
